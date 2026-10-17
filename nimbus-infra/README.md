@@ -226,5 +226,52 @@ wlw@Ubuntu:~/Desktop/nimbus-infra$ curl -k https://priv.nimbus.local/
 
 
      Y ya tendríamos la practica finalizada y bien configurada.
+     
+     
+
+    - Comprobaciones 
+    
+    ​
+
+​
+•​ Demostrad con una ráfaga de peticiones repetidas (un bucle for con curl, o ab desde
+un contenedor cliente) que el límite calculado realmente bloquea, adjuntando la salida.
+    
+    
+    wlw@Ubuntu:~/Desktop/IAW/nimbus-infra$ for i in {1..15}; do curl -k -s -o /dev/null -w "%{http_code}\n" https://docs.nimbus.local/; done
+200
+200
+200
+200
+200
+200
+200
+503
+503
+503
+503
+503
+503
+503
+503
+
+
+
+    •​ Cabeceras de seguridad mínimas: Strict-Transport-Security,
+X-Content-Type-Options y una tercera que elijáis y justifiquéis vosotros (repasad UD1,tabla de cabeceras).
+
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header X-Frame-Options "DENY" always;
+
+    he elegido X-Frame-Options por proteccion ante Clickjacking
+
+
+
+
+
+
+
+
 
 
